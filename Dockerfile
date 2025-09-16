@@ -3,6 +3,7 @@ FROM debian:bookworm
 ENV DEBIAN_FRONTEND=noninteractive
 ENV	ASTERISK_VERSION=16.20.0
 ENV	ASTERISK_VERSION_QUECTEL=16.20
+ENV	ASTERISK_VERSION_DONGLE=16.20
 
 RUN set -x \
     && apt-get update \
@@ -21,6 +22,9 @@ RUN set -x \
 # Download asterisk-chan-quectel
 	&& git clone https://github.com/IchthysMaranatha/asterisk-chan-quectel.git \
 		/usr/local/src/chan-quectel \
+# Download asterisk-chan-dongle
+	&& git clone https://github.com/wdoekes/asterisk-chan-dongle.git \
+		/usr/local/src/chan-dongle \
 # Install asterisk
 	&& cd /usr/local/src/asterisk \
 	&& contrib/scripts/install_prereq install \
@@ -196,6 +200,13 @@ RUN set -x \
 	&& make -j"$(nproc)" all \
 	&& make install \
 	&& install -Dm0644 quectel.conf /etc/asterisk/quectel.conf \
+	&& make distclean \
+# Install chan-dongle
+	&& cd /usr/local/src/chan-dongle \
+	&& ./bootstrap \
+	&& ./configure --with-astversion=${ASTERISK_VERSION_DONGLE} \
+	&& make all \
+	&& make install \
 	&& make distclean \
 # Postinstall
 	&& addgroup --system --gid 1000 asterisk \
