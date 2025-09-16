@@ -18,5 +18,5 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: ${{ secrets.DOCKERHUB_USERNAME }}/asterisk-quectel-rpi
+          repository: ${{ secrets.DOCKERHUB_USERNAME }}/asterisk-dongle-quectel-rpi
           short-description: ${{ github.event.repository.description }}
