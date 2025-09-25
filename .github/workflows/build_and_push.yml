@@ -6,6 +6,7 @@ on:
     paths:
       - Dockerfile
       - .github/workflows/build_and_push.yml
+      - start.sh
     tags:
       - "*"
   workflow_dispatch:
