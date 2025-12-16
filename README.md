@@ -29,7 +29,13 @@ where:
 
 If your dongle uses a sound device (for example, in a Quectel EC25 module using UAC), you need to add the asterisk user on the host with the same UID as in docker and create a udev rule (or use another method) to fix the permissions for audio devices. In this docker image UID for asterisk user is 1456.
 
-Create `/etc/udev/rules.d/99-asterisk-sound.rules` with contents like:
+To create user:
+
+```bash
+sudo useradd -u 1456 -s /usr/sbin/nologin asterisk
+```
+
+Add asterisk user to audio group. Create `/etc/udev/rules.d/99-asterisk-sound.rules` with contents like:
 
 ```udev
 SUBSYSTEM=="sound", ACTION=="add", OWNER="asterisk", GROUP="audio", MODE="0660"
